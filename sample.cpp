@@ -1,15 +1,27 @@
 #include <iostream>
-#include <stdlib.h>
+#include <memory>
+
 #include "virt2phys.hpp"
 
 int main()
 {
-    uintptr_t virtAddr = reinterpret_cast<uintptr_t>(malloc(1024));
-    std::cout << "virtual address  : " << virtAddr << std::endl;
+    auto tmpMem = std::make_unique<uint64_t>(10);
 
-    // 物理アドレス取得
-    uintptr_t physAddr = virt2phys(virtAddr);
+    if (tmpMem == nullptr)
+    {
+        std::cout << "Allocation failed !" << std::endl;
+        return 1;
+    }
 
+    uintptr_t physAddr = virt2phys(reinterpret_cast<uintptr_t>(tmpMem.get()));
+
+    if (physAddr == 0)
+    {
+        std::cout << "Translation failed !" << std::endl;
+        return 1;
+    }
+
+    std::cout << "virtual address  : " << tmpMem.get() << std::endl;
     std::cout << "physical address : " << physAddr << std::endl;
 
     return 0;

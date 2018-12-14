@@ -1,11 +1,10 @@
-#include "stdio.h"
 #include "unistd.h"
 #include "inttypes.h"
 
 uintptr_t virt2phys(uintptr_t virtAddr)
 {
     FILE *pageMap;
-    intptr_t physAddr = 0;
+    uintptr_t physAddr = 0;
     const long pageSize = sysconf(_SC_PAGESIZE);
     const off_t offset = ((virtAddr / pageSize) * sizeof(uint64_t));
     uint64_t buf;
