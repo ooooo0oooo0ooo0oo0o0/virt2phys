@@ -1,5 +1,5 @@
 CXX     = g++
-CFLAGS  = -std=c++14 -Wall
+CFLAGS  = -std=c++14 -Wall -MMD -MP
 LDFLAGS =
 LIBS    =
 INCLUDE = -I.
@@ -7,7 +7,7 @@ TARGET  = ./$(shell basename `readlink -f .`)
 SRC_DIR = .
 
 SRC     = $(wildcard $(SRC_DIR)/*.cpp)
-OBJ_DIR = .
+OBJ_DIR = ./.obj
 OBJ     = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.cpp=.o)))
 DEPENDS = $(OBJ:.o=.d)
 
@@ -21,7 +21,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 all: clean $(TARGET)
 
 clean:
-	-rm -f $(OBJ) $(DEPENDS) $(TARGET)
+	-rm -rf $(OBJ_DIR) $(DEPENDS) $(TARGET)
 
 -include $(DEPENDS)
 
