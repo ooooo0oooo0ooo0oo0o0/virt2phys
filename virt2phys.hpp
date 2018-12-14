@@ -6,8 +6,8 @@ uintptr_t virt2phys(uintptr_t virtAddr)
 {
     FILE *pageMap;
     intptr_t physAddr = 0;
-    long pageSize = sysconf(_SC_PAGESIZE);
-    uint64_t offset = ((virtAddr / pageSize) * sizeof(uint64_t));
+    const long pageSize = sysconf(_SC_PAGESIZE);
+    const off_t offset = ((virtAddr / pageSize) * sizeof(uint64_t));
     uint64_t buf;
 
     if ((pageMap = fopen("/proc/self/pagemap", "r")))
